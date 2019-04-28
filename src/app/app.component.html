@@ -1,0 +1,94 @@
+<mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate">
+</mwl-demo-utils-calendar-header>
+
+<button type="button" class="btn btn-info btn-lg" > Opret vagt </button>
+
+<div [ngSwitch]="view">
+  <mwl-calendar-month-view
+    *ngSwitchCase="'month'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [activeDayIsOpen]="true"
+    [refresh]="refresh"
+    (eventClicked)="eventClicked($event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+    [locale]="locale"
+    [weekStartsOn]="weekStartsOn"
+    [weekendDays]="weekendDays"
+  >
+  </mwl-calendar-month-view>
+  <mwl-calendar-week-view
+    *ngSwitchCase="'week'"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="eventClicked($event)"
+    (eventTimesChanged)="eventTimesChanged($event)"
+    [locale]="locale"
+    [weekStartsOn]="weekStartsOn"
+    [weekendDays]="weekendDays"
+  >
+  </mwl-calendar-week-view>
+ <mwl-day-view-scheduler
+  *ngSwitchCase="'day'"
+  [viewDate]="viewDate"
+  [events]="events"
+  [refresh]="refresh"
+  (eventClicked)="eventClicked($event)"
+  (eventTimesChanged)="eventTimesChanged($event)"
+  (userChanged)="userChanged($event)"
+  [locale]="locale"
+>
+</mwl-day-view-scheduler>
+
+</div>
+<div class="backdrop" [ngStyle]="{'display':display}"></div>
+
+<div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+
+  <div class="modal-dialog" role="document">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()"><span aria-hidden="true">&times;</span></button>
+
+        <h4 class="modal-title">Rediger vagt</h4>
+
+      </div>
+
+      <div *ngIf="selectedEvent" class="modal-body">
+
+        <div>
+          <h2>{{selectedEvent.title | uppercase}}</h2>
+            
+              <div>
+                <label>Her kan du redigere navnet på begivenheden.
+                  <input [(ngModel)]="selectedEvent.title" placeholder="name"/>
+                </label>
+               </div>
+             
+             <h3> Det er {{selectedEvent.meta.user.name}}s vagt </h3>
+             <div>
+                <label>Her kan du redigere hvis vagt det er 
+                  <br>
+                  <input [(ngModel)]="selectedEvent.meta.user.name" placeholder="name"/>
+                </label>
+               </div>
+         </div>
+
+    
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" (click)="onCloseHandled()" >Close</button>
+
+      </div>
+
+    </div><!-- /.modal-content -->
+
+  </div><!-- /.modal-dialog -->
+
+</div><!-- /.modal !-->
+
+
